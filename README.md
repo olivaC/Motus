@@ -1,6 +1,6 @@
 # Motus
 
-Motus has four separate applications that work in tandem with one another. For more details on the project description [press here](https://github.com/cmput401-fall2018/motus/wiki/Requirements-Document). 
+Motus has four separate applications that work in tandem with one another. For more details on the project description [press here](https://github.com/olivaC/Motus/blob/master/wiki/Requirements-Document.md). 
 
 ## Motus Web Admin
 Motus Web Admin provides the backend of all the applications. It is used as a simple web content management system to upload lessons/videos, upload pdf resources, and have an overview of the users of the applications. 
