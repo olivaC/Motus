@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block page_title %}
+    Motus | Support Team
+{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            display: inline-block;
+            text-align: right;
+        }
+
+        textarea.form-control {
+            height: 150px;
+        }
+
+    </style>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+            <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Support Team
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Support</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> Support Team
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ support_formset.management_form }}
+                                    {% for support_form in support_formset.forms %}
+                                        <div class="table>">
+                                            <div class="upload-formset">
+                                                {{ support_form.non_field_errors }}
+                                                {{ support_form.field_errors }}
+                                                <div class="row">
+                                                    <div class="col-xs-24">
+
+                                                        {{ support_form.picture }}
+
+                                                    </div>
+                                                    <div class="col-xs-24">
+                                                        <label class="col-sm-4 col-form-label">Name <span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="col-sm-6">
+                                                            {{ support_form.name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-24">
+                                                        <label class="col-sm-4 col-form-label">Position<span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="col-sm-6">
+                                                            {{ support_form.position }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-24">
+                                                        <label class="col-sm-4 col-form-label">Phone <span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="col-sm-6">
+                                                            {{ support_form.phone }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-24">
+                                                        <label class="col-sm-4 col-form-label">Email<span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="col-sm-6">
+                                                            {{ support_form.email }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-24">
+                                                        <label class="col-sm-4 col-form-label">Profile Image<span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="col-sm-6">
+                                                            {{ support_form.picture_img }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    {% endfor %}
+                                    <button type="submit" class="save btn btn-default">Save</button>
+                                </form>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                    </div>
+                    <!-- /.col-lg-8 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script>
+        $('.upload-formset').formset({
+            addText: 'Add',
+            deleteText: 'Remove',
+            prefix: 'form'
+        });
+    </script>
+
+
+{% endblock %}

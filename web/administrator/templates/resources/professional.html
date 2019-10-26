@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load administrator_extras %}
+
+{% block page_title %}
+    Motus | Resources
+{% endblock %}
+
+{% block content %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Academic Resources
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Mental Health Professional Resources</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-check fa-fw"></i> All active professional resources
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for resource in active_resources %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">View PDF</th>
+                                        <th scope="col">Deactivate</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    {{ resource.name }}
+                                </td>
+                                <td>
+                                    {{ resource.active }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{ path }}/media/{{ resource.pdf_file }}"
+                                       role="button">View</a>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:deactivate_professional_resource" id=resource.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Deactivate resource?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ resource.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Deactivate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:remove_professional_resource" id=resource.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Permanently remove resource?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ resource.id }}">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No active resources available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-remove fa-fw"></i> All inactive professional resources
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for resource in inactive_resources %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">View PDF</th>
+                                        <th scope="col">Activate</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    {{ resource.name }}
+                                </td>
+                                <td>
+                                    {{ resource.active }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{ path }}/media/{{ resource.pdf_file }}"
+                                       role="button">View</a>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:activate_professional_resource" id=resource.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Activate resource?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ resource.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Activate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:remove_professional_resource" id=resource.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Permanently remove resource?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ resource.id }}">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No inactive resources available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{# Admin template from https://github.com/BlackrockDigital/startbootstrap-sb-admin-2 #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>
+        {% block page_title %}Motus{% endblock %}
+    </title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-language" content="en">
+
+    <link rel="alternate" hreflang="x-default" lang="en">
+    {% block meta_description %}{% endblock %}
+    {% block header_meta %}{% endblock %}
+
+    {% block boostrap_css %}
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block header_css_other_origin %}
+        <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block header_css %}
+        <link href="{% static '/css/sb-admin-2.css' %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block custom_fonts %}
+        <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    {% endblock %}
+
+    {% block header_js_other_origin %}{% endblock %}
+    {% block import_jquery %}{% endblock %}
+    {% block import_bootsrap_js %}{% endblock %}
+    {% block header_js %}{% endblock %}
+
+</head>
+
+<body{% block body_attributes %}{% endblock %}>
+{% block body_start %}{% endblock %}
+
+{% block include_header %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{#{% block include_footer %}#}
+{#    {% include 'footer.html' %}#}
+{#{% endblock %}#}
+
+{% block import_default_scripts %}
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/sb-admin-2.js' %}"></script>
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+{% endblock %}
+
+{% block scripts_other_origin %}{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

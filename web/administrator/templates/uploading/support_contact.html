@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block page_title %}
+    Motus | Contact Email
+{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            display: inline-block;
+            text-align: right;
+        }
+
+        textarea.form-control {
+            height: 150px;
+        }
+
+    </style>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Change Email
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Contact Email on Professional App</h1>
+                </div>
+                <div class="row">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-send fa-fw"></i> Email
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-24">
+                                            <label class="col-sm-4 col-form-label">Email<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="col-sm-6">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" id="id_privacy_button">
+                                    Save
+                                </button>
+                            </div>
+
+                            <!-- /.panel-body -->
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

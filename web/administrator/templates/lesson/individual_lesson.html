@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+
+{% block content %}
+    <style>
+
+        .modal-dialog {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .modal-body {
+            position: relative;
+            padding: 0px;
+        }
+
+        .close {
+            position: absolute;
+            right: -30px;
+            top: 0;
+            z-index: 999;
+            font-size: 2rem;
+            font-weight: normal;
+            color: #fff;
+            opacity: 1;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url "administrator:lessons" %}">Lessons</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">{{ lesson.lesson_name }}</li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ lesson.lesson_name }}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Videos
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for video in videos %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Video</th>
+                                        <th scope="col">Watch</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    {{ video.video_name }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-warning video-btn" data-toggle="modal"
+                                            data-src="https://www.youtube.com/embed/{{ video.youtube_id }}"
+                                            data-target="#myModal">
+                                        Watch video
+                                    </button>
+                                </td>
+                                <td>
+                                    {{ video.description }}
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No lessons created.
+                                </div>
+                            {% endfor %}
+                            {% for lesson in lessons %}
+                                <b>{{ lesson.lesson_name }}</b> on {{ lesson.creation_time|timezone:user_tz_name|date }}
+                                at {{ lesson.creation_time|timezone:user_tz_name|time }} <br>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Video Reaction Statistics
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for video in videos %}
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse"
+                                                   href="#test{{ video.id }}">{{ video.video_name }}
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="test{{ video.id }}" class="panel-collapse collapse">
+
+                                            {% for key,val in vid_data.items %}
+                                                {% if key == video.id %}
+                                                    {% for k,v in val.items %}
+                                                        {% if k == 'sad' %}
+                                                            <b>Sad</b> 😢 - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if k == 'relaxed' %}
+                                                            <b>Relaxed</b> ☺️ - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-success"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="40" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if k == 'surprised' %}
+                                                            <b>Surprised</b> 😯 - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-info"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="50" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if k == 'love' %}
+                                                            <b>Love</b> 😍 - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-warning"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="60" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if k == 'angry' %}
+                                                            <b>Angry</b> 😡 - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="70" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if k == 'favorite' %}
+                                                            <b>Favourited</b> ❤️ - Count: {{ v }}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar"
+                                                                     role="progressbar"
+                                                                     aria-valuenow="" aria-valuemin="0"
+                                                                     aria-valuemax="100"
+                                                                     style="width:{{ v }}%">
+                                                                    {{ v }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-line-chart fa-fw"></i> Lesson Statistics
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            Children lesson assigned: {{ lesson_count }}
+                            <div class="list-group">
+                                {% for i in a_lessons %}
+                                    <a href="{% url "administrator:child_detail" id=i.child.id %}"
+                                       class="list-group-item">
+                                        <i class="fa fa-child fa-fw"></i>{{ i.child.first_name }} {{ i.child.last_name }}
+                                        {% if i.completed %}
+                                            <span class="pull-right text-muted small">
+                                            <em>Completed</em>
+                                        {% else %}
+                                            <span class="pull-right text-muted small">
+                                            <em>Not Complete</em>
+                                        {% endif %}
+                                        </span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-picture-o fa-fw"></i> Lesson Photo
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <center><img src="{{ lesson.picture }}"></center>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Taken from https://codepen.io/JacobLett/pen/xqpEYE -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+        //Taken from https://codepen.io/JacobLett/pen/xqpEYE
+
+        $(document).ready(function () {
+            let $videoSrc;
+            $('.video-btn').click(function () {
+                $videoSrc = $(this).data("src");
+            });
+            console.log($videoSrc);
+            $('#myModal').on('shown.bs.modal', function (e) {
+                console.log($videoSrc);
+
+                $("#video").attr('src', $videoSrc);
+            });
+            $('#myModal').on('hide.bs.modal', function (e) {
+                // a poor man's stop video
+                $("#video").attr('src', $videoSrc);
+            })
+        });
+    </script>
+
+{% endblock %}

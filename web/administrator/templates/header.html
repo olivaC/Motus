@@ -1,0 +1,121 @@
+{% load static %}
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href={% url 'administrator:index' %}>Motus</a>
+    </div>
+    <!-- /.navbar-header -->
+
+    {% if user_profile %}
+        <ul class="nav navbar-top-links navbar-right">
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li>
+                        <a href="{% url "administrator:logout" %}?next={{ request.path|add:'?'|add:request.GET.urlencode|urlencode }}"><i
+                                class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href={% url 'administrator:index' %}><i class="fa fa-dashboard fa-fw"></i> Motus
+                            Dashboard</a>
+                    </li>
+                    <li>
+                        <a href={% url 'administrator:users' %}><i class="fa fa-users fa-fw"></i> Users <span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href={% url 'administrator:professionals' %}><i class="fa fa-user-md fa-fw"></i>Mental
+                                    Health
+                                    Professionals</a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:parents' %}><i class="fa fa-user fa-fw"></i>Parents</a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:children' %}><i class="fa fa-child fa-fw"></i>Children</a>
+                            </li>
+                            {#                            <li>#}
+                            {#                                <a href={% url 'administrator:users' %}><i class="fa fa-users fa-fw"></i>All Users</a>#}
+                            {#                            </li>#}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href={% url 'administrator:lessons' %}><i class="fa fa-video-camera fa-fw"></i> Lessons <span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href={% url 'administrator:createlesson' %}><i class="fa fa-plus fa-fw"></i>Create
+                                    New Lesson</a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:lessons' %}><i class="fa fa-file-video-o fa-fw"></i>All
+                                    Lessons</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href={% url 'administrator:resources' %}><i class="fa fa-file-pdf-o fa-fw"></i> Resources
+                            <span
+                                    class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href={% url 'administrator:resources' %}><i class="fa fa-plus fa-fw"></i>Upload
+                                    New Resource</a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:parental_resources' %}><i
+                                        class="fa fa-file-pdf-o fa-fw"></i>All
+                                    Parental Resources</a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:academic_resources' %}><i
+                                        class="fa fa-file-pdf-o fa-fw"></i>All
+                                    Academic Resources</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href={% url 'administrator:support' %}><i class="fa fa-user fa-fw"></i>
+                            Support Team <span
+                                    class="fa arrow"></span></a>
+
+                        <ul class="nav nav-second-level">
+                            <li>
+                               <a href={% url 'administrator:support' %}><i class="fa fa-user fa-fw"></i>
+                            Support Team </a>
+                            </li>
+                            <li>
+                                <a href={% url 'administrator:support_email' %}><i
+                                        class="fa fa-mail-forward fa-fw"></i>Change Support Email</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href={% url 'administrator:privacy_terms' %}><i class="fa fa-newspaper-o fa-fw"></i>
+                            Privacy/Terms</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    {% endif %}
+</nav>

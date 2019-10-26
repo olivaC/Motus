@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Motus | Professionals
+{% endblock %}
+
+{% block content %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Parents
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Parents</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-check fa-fw"></i> All active parents
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for par in active_parents %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Parent</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Deactivate</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    <img src="{{ par.picture }}" class="img-rounded" width="30"
+                                         height="30">&nbsp;&nbsp{{ par.profile.full_name }}
+                                </td>
+                                <td>
+                                    {{ par.profile.user.is_active }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:deactivate_parent" id=par.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Deactivate parent?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ par.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Deactivate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:parent_detail" id=par.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ par.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No active parents available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-remove fa-fw"></i> All inactive parents
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for par in inactive_parents %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Parent</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Activate</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    <img src="{{ par.picture }}" class="img-rounded" width="30"
+                                         height="30">&nbsp;&nbsp{{ par.profile.full_name }}
+                                </td>
+                                <td>
+                                    {{ par.profile.user.is_active }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:activate_parent" id=par.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Activate parent?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ par.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Activate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:parent_detail" id=par.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ par.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No inactive parents available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

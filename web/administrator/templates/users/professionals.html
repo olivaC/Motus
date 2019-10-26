@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Motus | Professionals
+{% endblock %}
+
+{% block content %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Mental Health Professionals
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Mental Health Professionals</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-check fa-fw"></i> All active mental health professionals
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for prof in active_professionals %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Mental Health Professional</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Deactivate</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+{#                                    <img src="{{ path }}/media/{{ prof.picture }}" class="img-rounded" width="30"#}
+{#                                         height="30">&nbsp;&nbsp{{ prof.profile.full_name }}#}
+                                    <img src="{{ prof.picture }}" class="img-rounded" width="30"
+                                         height="30">&nbsp;&nbsp{{ prof.profile.full_name }}
+                                </td>
+                                <td>
+                                    {{ prof.profile.user.is_active }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:deactivate_professional" id=prof.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Deactivate professional?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ prof.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Deactivate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:professional_detail" id=prof.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ prof.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No active mental health professionals available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-remove fa-fw"></i> All inactive mental health professionals
+
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for prof in inactive_professionals %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Mental Health Professional</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Activate</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    <img src="{{ prof.picture }}" class="img-rounded" width="30"
+                                         height="30">&nbsp;&nbsp{{ prof.profile.full_name }}
+                                </td>
+                                <td>
+                                    {{ prof.profile.user.is_active }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:activate_professional" id=prof.id %}"
+                                          method="post"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Activate professional?')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ prof.id }}">
+                                        <button type="submit" class="btn btn-sm btn-warning">
+                                            Activate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:professional_detail" id=prof.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ prof.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No inactive mental health professionals available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

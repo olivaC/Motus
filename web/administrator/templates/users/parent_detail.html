@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load administrator_extras %}
+
+{% block page_title %}
+    Motus | Parent Detail
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url "administrator:parents" %}">Parents</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">{{ parent.profile.full_name }}</li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header"><a href="{{ parent.picture }}" target="_blank"><img
+                            src="{{ parent.picture }}" class="img-rounded" width="50"
+                            height="50"></a> {{ parent.profile.full_name }}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-user-md fa-fw"></i> Parent Profile
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <center>
+                                <b>Email: </b>{{ parent.profile.user.username }} |
+                                <b>Phone: </b>{{ parent.phone_number }} |
+                                <b>Emergency Phone: </b>{{ parent.emergency_phone_number }} |
+                                <b>Health Care #: </b>{{ parent.health_care_number }}
+                            </center>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-user-md fa-fw"></i> Mental Health Professional
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">Action</a>
+                                        </li>
+                                        <li><a href="#">Another action</a>
+                                        </li>
+                                        <li><a href="#">Something else here</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for prof in professional %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Mental Health Professional</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    <a href="{{ prof.picture }}" target="_blank"><img src="{{ prof.picture }}"
+                                                                                      class="img-rounded" width="30"
+                                                                                      height="30"></a>&nbsp;&nbsp{{ prof.profile.full_name }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:professional_detail" id=prof.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ prof.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    {{ parent.profile.full_name }} has no mental health professionals available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-child fa-fw"></i> Children
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">Action</a>
+                                        </li>
+                                        <li><a href="#">Another action</a>
+                                        </li>
+                                        <li><a href="#">Something else here</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for chi in children %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Child</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    <a href="{{ chi.picture }}" target="_blank"><img
+                                            src="{{ chi.picture }}" class="img-rounded" width="30"
+                                            height="30"></a>&nbsp;&nbsp{{ chi.first_name }} {{ chi.last_name }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:child_detail" id=chi.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ chi.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    {{ parent.profile.full_name }} has no children available.
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-file-pdf-o fa-fw"></i> Resources Assigned
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for res in resources %}
+                                    <a href="{{ path }}/media/{{ res.pdf_file }}" class="list-group-item">
+                                        <i class="fa fa-file fa-fw"></i>{{ res.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-picture-o fa-fw"></i> {{ parent.profile.first_name }}'s Photo
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <center><img src="{{ parent.picture }}" width="200"
+                                         height="200"></center>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

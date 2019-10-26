@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block page_title %}
+    Motus | Privacy & Terms
+{% endblock %}
+
+{% block content %}
+    <style>
+        textarea.form-control {
+            height: 150px;
+        }
+    </style>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Privacy Terms
+                        </li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Privacy/Terms and Conditions</h1>
+                </div>
+                <div class="row">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> Privacy
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="form-group row">
+                                        {{ form.privacy.errors }}
+                                        <textarea id="id_privacy" name="privacy" placeholder="Optional"
+                                                  class="form-control">{{ form.privacy.value|default:"" }}</textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /.panel-body -->
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> Terms and Conditions
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="form-group row">
+                                        {{ form.terms.errors }}
+                                        <textarea id="id_terms" name="terms" placeholder="Optional"
+                                                  class="form-control">{{ form.terms.value|default:"" }}</textarea>
+
+                                    </div>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" id="id_privacy_button">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+
+{% block content %}
+
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "administrator:index" %}">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Lessons</li>
+                    </ol>
+                </nav>
+                <div class="col-lg-12">
+                    <h1 class="page-header">Lessons</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Recently Created Lessons
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            {% for lesson in lessons %}
+                                {% if forloop.first %}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Lesson</th>
+                                        <th scope="col">Date Created</th>
+                                        <th scope="col">View Lesson</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                {% endif %}
+                            <tr>
+                                <td>
+                                    {{ lesson.lesson_name }}
+                                </td>
+                                <td>
+                                    {{ lesson.creation_time|timezone:user_tz_name|date }}
+                                    at {{ lesson.creation_time|timezone:user_tz_name|time }}
+                                </td>
+                                <td>
+                                    <form action="{% url "administrator:lessons_detail" id=lesson.id %}"
+                                          method="post"
+                                          class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ lesson.id }}">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            View
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% if forloop.last %}
+                                </tbody>
+                                </table>
+                            {% endif %}
+                            {% empty %}
+                                <div class="container-fluid text-center">
+                                    No lessons created.
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <!-- /.col-lg-8 -->
+
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
